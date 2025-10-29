@@ -359,4 +359,5 @@ Developed by [Your Name/Team]
 
 © 2025 College Event Management System. All rights reserved.
 #   c o l l e g e _ e v e n t _ m a n a g e m e n t  
+ #   c o l l e g e _ e v e n t _ m a n a g e m e n t  
  
