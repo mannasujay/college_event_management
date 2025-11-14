@@ -35,4 +35,12 @@ class Registration extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get the certificate for this registration.
+     */
+    public function certificate()
+    {
+        return $this->hasOne(Certificate::class);
+    }
 }

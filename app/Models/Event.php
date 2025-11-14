@@ -56,4 +56,28 @@ class Event extends Model
     {
         return $this->hasMany(Result::class);
     }
+
+    /**
+     * Get the photos for the event.
+     */
+    public function photos()
+    {
+        return $this->hasMany(EventPhoto::class)->orderBy('order');
+    }
+
+    /**
+     * Get the report for the event.
+     */
+    public function report()
+    {
+        return $this->hasOne(EventReport::class);
+    }
+
+    /**
+     * Get the winners for the event.
+     */
+    public function winners()
+    {
+        return $this->hasMany(EventWinner::class);
+    }
 }

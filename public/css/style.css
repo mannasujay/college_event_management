@@ -11,7 +11,7 @@ body {
     color: #333;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     background-attachment: fixed;
-    padding-top: 90px; /* Add padding to prevent content from hiding under fixed navbar */
+    padding-top: 0; /* Remove padding since new navbar is sticky, not fixed */
     min-height: 100vh;
 }
 
@@ -21,7 +21,8 @@ body {
     padding: 20px;
 }
 
-/* Navbar Styles */
+/* Old Navbar Styles - Commented out to use new modern navbar component */
+/* 
 .navbar {
     background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
     backdrop-filter: blur(15px);
@@ -129,6 +130,7 @@ body {
 .navbar-menu form {
     margin: 0;
 }
+*/
 
 /* Button Styles */
 .btn {

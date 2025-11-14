@@ -78,13 +78,24 @@ Route::middleware('guest')->group(function () {
     Route::post('/verify-otp', [\App\Http\Controllers\PasswordResetController::class, 'verifyOtp'])->name('password.verifyOtp');
     Route::get('/reset-password', [\App\Http\Controllers\PasswordResetController::class, 'showResetPasswordForm'])->name('password.resetForm');
     Route::post('/reset-password', [\App\Http\Controllers\PasswordResetController::class, 'resetPassword'])->name('password.reset');
+    
+    // Social Authentication Routes
+    Route::get('/auth/google', [\App\Http\Controllers\SocialLoginController::class, 'redirectToGoogle'])->name('social.redirect.google');
+    Route::get('/auth/google/callback', [\App\Http\Controllers\SocialLoginController::class, 'handleGoogleCallback']);
+    Route::get('/auth/facebook', [\App\Http\Controllers\SocialLoginController::class, 'redirectToFacebook'])->name('social.redirect.facebook');
+    Route::get('/auth/facebook/callback', [\App\Http\Controllers\SocialLoginController::class, 'handleFacebookCallback']);
 });
 
 Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
-    return redirect('/');
+    
+    if (request()->expectsJson()) {
+        return response()->json(['message' => 'Logged out successfully', 'redirect' => '/'], 200);
+    }
+    
+    return redirect('/')->with('success', 'You have been logged out successfully.');
 })->middleware('auth')->name('logout');
 
 // Public Events Routes
@@ -144,6 +155,37 @@ Route::get('/privacy', function () {
 Route::get('/terms', function () {
     return view('pages.terms');
 })->name('terms');
+
+// Post-Event Features Routes
+// Photo Gallery
+Route::get('/events/{event}/gallery', [\App\Http\Controllers\EventPhotoController::class, 'index'])->name('events.photos');
+Route::post('/events/{event}/photos', [\App\Http\Controllers\EventPhotoController::class, 'store'])->name('events.photos.store')->middleware('auth');
+Route::delete('/photos/{photo}', [\App\Http\Controllers\EventPhotoController::class, 'destroy'])->name('events.photos.destroy')->middleware('auth');
+
+// Certificates
+Route::get('/events/{event}/certificates/generate', [\App\Http\Controllers\CertificateController::class, 'generate'])->name('certificates.generate')->middleware('auth');
+Route::get('/registrations/{registration}/certificate', [\App\Http\Controllers\CertificateController::class, 'view'])->name('certificates.view')->middleware('auth');
+Route::get('/registrations/{registration}/certificate/download', [\App\Http\Controllers\CertificateController::class, 'download'])->name('certificates.download')->middleware('auth');
+
+// Event Analytics
+Route::get('/events/{event}/analytics', [\App\Http\Controllers\EventAnalyticsController::class, 'show'])->name('events.analytics')->middleware('auth');
+
+// Event Reports
+Route::get('/events/{event}/report/create', [\App\Http\Controllers\EventReportController::class, 'create'])->name('events.report.create')->middleware('auth');
+Route::post('/events/{event}/report', [\App\Http\Controllers\EventReportController::class, 'store'])->name('events.report.store')->middleware('auth');
+Route::get('/events/{event}/report', [\App\Http\Controllers\EventReportController::class, 'show'])->name('events.report.show');
+Route::get('/reports/{report}/download', [\App\Http\Controllers\EventReportController::class, 'downloadFile'])->name('events.report.download')->middleware('auth');
+
+// Event Winners/Results
+Route::get('/events/{event}/winners/create', [\App\Http\Controllers\EventWinnerController::class, 'create'])->name('events.winners.create')->middleware('auth');
+Route::post('/events/{event}/winners', [\App\Http\Controllers\EventWinnerController::class, 'store'])->name('events.winners.store')->middleware('auth');
+Route::get('/events/{event}/winners', [\App\Http\Controllers\EventWinnerController::class, 'show'])->name('events.winners.show');
+
+// Post-Event Emails
+Route::post('/events/{event}/send-emails', [\App\Http\Controllers\PostEventEmailController::class, 'send'])->name('events.send-emails')->middleware('auth');
+
+// Event Archive
+Route::get('/events/archive', [\App\Http\Controllers\EventArchiveController::class, 'index'])->name('events.archive');
 
 // Include role-specific routes
 require __DIR__.'/admin.php';
