@@ -3,155 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - College Event Management</title>
+    <title>Login - College Event Management</title>
     <link href="{{ asset('css/professional-theme.css') }}" rel="stylesheet">
     <style>
         body {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            background: linear-gradient(135deg, var(--secondary-600) 0%, var(--primary-600) 100%);
-            padding: 0;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Navigation Bar Styles */
-        .top-nav {
-            width: 100%;
-            padding: var(--space-4) var(--space-6);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 100;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            color: white;
-            text-decoration: none;
-            font-weight: var(--font-bold);
-            font-size: var(--text-lg);
-        }
-
-        .nav-logo-icon {
-            font-size: 1.8rem;
-        }
-
-        .nav-menu {
-            position: relative;
-        }
-
-        .dropdown-toggle {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: var(--space-2) var(--space-4);
-            border-radius: var(--radius-lg);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: var(--text-sm);
-            font-weight: var(--font-medium);
-            transition: all 0.3s;
-        }
-
-        .dropdown-toggle:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: calc(100% + var(--space-2));
-            right: 0;
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-2xl);
-            min-width: 220px;
-            overflow: hidden;
-            animation: dropdownSlide 0.3s ease-out;
-        }
-
-        .dropdown-menu.active {
-            display: block;
-        }
-
-        @keyframes dropdownSlide {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            padding: var(--space-3) var(--space-4);
-            color: var(--gray-700);
-            text-decoration: none;
-            transition: all 0.2s;
-            border-bottom: 1px solid var(--gray-100);
-        }
-
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .dropdown-item:hover {
-            background: var(--primary-50);
-            color: var(--primary-700);
-        }
-
-        .dropdown-item-icon {
-            font-size: 1.2rem;
-        }
-
-        .page-content {
-            flex: 1;
-            display: flex;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(135deg, var(--primary-600) 0%, var(--secondary-600) 100%);
             padding: var(--space-6);
+            position: relative;
+            overflow: hidden;
         }
 
         body::before {
             content: '';
-            position: fixed;
+            position: absolute;
             width: 500px;
             height: 500px;
             background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
             border-radius: 50%;
             top: -250px;
-            left: -250px;
+            right: -250px;
             animation: float 20s ease-in-out infinite;
-            z-index: 0;
         }
 
         body::after {
             content: '';
-            position: fixed;
+            position: absolute;
             width: 400px;
             height: 400px;
             background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
             border-radius: 50%;
             bottom: -200px;
-            right: -200px;
+            left: -200px;
             animation: float 15s ease-in-out infinite reverse;
-            z-index: 0;
         }
 
         @keyframes float {
@@ -164,7 +51,7 @@
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
         }
 
         .auth-card {
@@ -226,8 +113,7 @@
             font-size: var(--text-sm);
         }
 
-        .form-input,
-        .form-select {
+        .form-input {
             width: 100%;
             padding: var(--space-4);
             border: 2px solid var(--gray-200);
@@ -237,15 +123,13 @@
             font-family: inherit;
         }
 
-        .form-input:focus,
-        .form-select:focus {
+        .form-input:focus {
             outline: none;
-            border-color: var(--secondary-500);
-            box-shadow: 0 0 0 4px var(--secondary-100);
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 4px var(--primary-100);
         }
 
-        .form-input.error,
-        .form-select.error {
+        .form-input.error {
             border-color: var(--danger-500);
         }
 
@@ -268,10 +152,27 @@
             font-size: var(--text-sm);
         }
 
+        .forgot-password {
+            text-align: right;
+            margin-top: var(--space-2);
+        }
+
+        .forgot-password a {
+            color: var(--primary-600);
+            text-decoration: none;
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            transition: color 0.3s;
+        }
+
+        .forgot-password a:hover {
+            color: var(--primary-700);
+        }
+
         .btn-primary {
             width: 100%;
             padding: var(--space-4);
-            background: linear-gradient(135deg, var(--secondary-600), var(--secondary-700));
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
             color: white;
             border: none;
             border-radius: var(--radius-lg);
@@ -340,8 +241,8 @@
         }
 
         .btn-social:hover {
-            border-color: var(--secondary-300);
-            background: var(--secondary-50);
+            border-color: var(--primary-300);
+            background: var(--primary-50);
             transform: translateY(-2px);
             box-shadow: var(--shadow-md);
         }
@@ -359,20 +260,19 @@
         }
 
         .auth-link a {
-            color: var(--secondary-600);
+            color: var(--primary-600);
             text-decoration: none;
             font-weight: var(--font-semibold);
             transition: color 0.3s;
         }
 
         .auth-link a:hover {
-            color: var(--secondary-700);
+            color: var(--primary-700);
         }
 
         .back-home {
             text-align: center;
             margin-top: var(--space-6);
-            display: none; /* Hidden as we have dropdown nav */
         }
 
         .back-home a {
@@ -396,64 +296,24 @@
             transform: translateY(-2px);
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-4);
-        }
-
         @media (max-width: 768px) {
             .auth-card {
                 padding: var(--space-8);
             }
 
-            .social-buttons,
-            .form-row {
+            .social-buttons {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="top-nav">
-        <a href="{{ route('home') }}" class="nav-logo">
-            <span class="nav-logo-icon">🎓</span>
-            <span>College Events</span>
-        </a>
-        <div class="nav-menu">
-            <button class="dropdown-toggle" onclick="toggleDropdown()">
-                <span>Menu</span>
-                <span>▼</span>
-            </button>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="{{ route('home') }}" class="dropdown-item">
-                    <span class="dropdown-item-icon">🏠</span>
-                    <span>Home</span>
-                </a>
-                <a href="{{ route('login') }}" class="dropdown-item">
-                    <span class="dropdown-item-icon">🔑</span>
-                    <span>Sign In</span>
-                </a>
-                <a href="{{ route('events.index') }}" class="dropdown-item">
-                    <span class="dropdown-item-icon">📅</span>
-                    <span>Browse Events</span>
-                </a>
-                <a href="{{ route('password.forgot') }}" class="dropdown-item">
-                    <span class="dropdown-item-icon">🔒</span>
-                    <span>Forgot Password</span>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="page-content">
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
                 <div class="auth-logo">🎓</div>
-                <h1 class="auth-title">Create Account</h1>
-                <p class="auth-subtitle">Join our event management community</p>
+                <h1 class="auth-title">Welcome Back</h1>
+                <p class="auth-subtitle">Sign in to access your dashboard</p>
             </div>
 
             @if(session('success'))
@@ -473,24 +333,8 @@
             </div>
             @endif
 
-            <form action="{{ route('register') }}" method="POST">
+            <form action="{{ route('login') }}" method="POST">
                 @csrf
-
-                <div class="form-group">
-                    <label for="name" class="form-label">Full Name</label>
-                    <input 
-                        type="text" 
-                        id="name" 
-                        name="name" 
-                        class="form-input @error('name') error @enderror" 
-                        placeholder="John Doe"
-                        value="{{ old('name') }}"
-                        required
-                    >
-                    @error('name')
-                    <span class="error-message">⚠️ {{ $message }}</span>
-                    @enderror
-                </div>
 
                 <div class="form-group">
                     <label for="email" class="form-label">Email Address</label>
@@ -508,63 +352,35 @@
                     @enderror
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="password" class="form-label">Password</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            class="form-input @error('password') error @enderror" 
-                            placeholder="••••••••"
-                            required
-                        >
-                        @error('password')
-                        <span class="error-message">⚠️ {{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password_confirmation" class="form-label">Confirm Password</label>
-                        <input 
-                            type="password" 
-                            id="password_confirmation" 
-                            name="password_confirmation" 
-                            class="form-input" 
-                            placeholder="••••••••"
-                            required
-                        >
-                    </div>
-                </div>
-
                 <div class="form-group">
-                    <label for="role" class="form-label">I am a</label>
-                    <select 
-                        id="role" 
-                        name="role" 
-                        class="form-select @error('role') error @enderror"
+                    <label for="password" class="form-label">Password</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="form-input @error('password') error @enderror" 
+                        placeholder="••••••••"
                         required
                     >
-                        <option value="">Select your role</option>
-                        <option value="student" {{ old('role') == 'student' ? 'selected' : '' }}>Student</option>
-                        <option value="organizer" {{ old('role') == 'organizer' ? 'selected' : '' }}>Event Organizer</option>
-                    </select>
-                    @error('role')
+                    @error('password')
                     <span class="error-message">⚠️ {{ $message }}</span>
                     @enderror
+                    <div class="forgot-password">
+                        <a href="{{ route('forgot-password') }}">Forgot password?</a>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-primary">
-                    Create Account
+                    Sign In
                 </button>
             </form>
 
             <div class="divider">
-                <span class="divider-text">Or sign up with</span>
+                <span class="divider-text">Or continue with</span>
             </div>
 
             <div class="social-buttons">
-                <a href="{{ route('social.redirect.google') }}" class="btn-social">
+                <a href="{{ route('social.redirect', 'google') }}" class="btn-social">
                     <svg width="20" height="20" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -573,7 +389,7 @@
                     </svg>
                     Google
                 </a>
-                <a href="{{ route('social.redirect.facebook') }}" class="btn-social">
+                <a href="{{ route('social.redirect', 'facebook') }}" class="btn-social">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                     </svg>
@@ -583,7 +399,7 @@
 
             <div class="auth-footer">
                 <p class="auth-link">
-                    Already have an account? <a href="{{ route('login') }}">Sign in</a>
+                    Don't have an account? <a href="{{ route('register') }}">Sign up now</a>
                 </p>
             </div>
         </div>
@@ -595,30 +411,5 @@
             </a>
         </div>
     </div>
-    </div>
-
-    <script>
-        function toggleDropdown() {
-            const dropdown = document.getElementById('dropdownMenu');
-            dropdown.classList.toggle('active');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('dropdownMenu');
-            const toggle = document.querySelector('.dropdown-toggle');
-            
-            if (!dropdown.contains(event.target) && !toggle.contains(event.target)) {
-                dropdown.classList.remove('active');
-            }
-        });
-
-        // Close dropdown with escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                document.getElementById('dropdownMenu').classList.remove('active');
-            }
-        });
-    </script>
 </body>
 </html>

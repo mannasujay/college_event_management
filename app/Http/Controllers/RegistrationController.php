@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Registration;
 use App\Models\Event;
 
@@ -16,7 +17,7 @@ class RegistrationController extends Controller
     {
         // Check if already registered
         $existingRegistration = Registration::where('event_id', $event->id)
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->first();
 
         if ($existingRegistration) {
@@ -34,7 +35,7 @@ class RegistrationController extends Controller
 
         Registration::create([
             'event_id' => $event->id,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'status' => 'confirmed',
             'registration_date' => now(),
         ]);
@@ -48,7 +49,7 @@ class RegistrationController extends Controller
     public function destroy(Event $event)
     {
         $registration = Registration::where('event_id', $event->id)
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->first();
 
         if (!$registration) {
@@ -66,7 +67,7 @@ class RegistrationController extends Controller
     public function myRegistrations()
     {
         $registrations = Registration::with('event')
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\EventReport;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class EventReportController extends Controller
@@ -34,7 +35,7 @@ class EventReportController extends Controller
 
         $data = $request->except('report_file');
         $data['event_id'] = $eventId;
-        $data['created_by'] = auth()->id();
+        $data['created_by'] = Auth::id();
 
         if ($request->hasFile('report_file')) {
             $data['report_file_path'] = $request->file('report_file')->store('event-reports', 'public');
@@ -64,6 +65,7 @@ class EventReportController extends Controller
             return redirect()->back()->with('error', 'No file attached to this report.');
         }
 
-        return Storage::disk('public')->download($report->report_file_path);
+        $filePath = storage_path('app/public/' . $report->report_file_path);
+        return response()->download($filePath);
     }
 }

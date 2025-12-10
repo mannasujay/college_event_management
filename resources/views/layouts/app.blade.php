@@ -9,16 +9,18 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
 
     <!-- Styles -->
+    <link href="{{ asset('css/professional-theme.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
-<body>
+<body style="background: var(--gray-50); min-height: 100vh;">
     @include('components.navbar')
 
-    <div class="container">
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: var(--space-8);">
         @yield('content')
     </div>
 

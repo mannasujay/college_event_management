@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 
 class EventController extends Controller
@@ -38,7 +39,7 @@ class EventController extends Controller
             'status' => 'required|in:active,completed,cancelled',
         ]);
 
-        $validated['organizer_id'] = auth()->id();
+        $validated['organizer_id'] = Auth::id();
 
         Event::create($validated);
 
@@ -59,7 +60,7 @@ class EventController extends Controller
     public function edit(Event $event)
     {
         // Only organizer or admin can edit
-        if (auth()->user()->role === 'student' && $event->organizer_id !== auth()->id()) {
+        if (Auth::user()->role === 'student' && $event->organizer_id !== Auth::id()) {
             abort(403, 'Unauthorized');
         }
 
@@ -72,7 +73,7 @@ class EventController extends Controller
     public function update(Request $request, Event $event)
     {
         // Only organizer or admin can update
-        if (auth()->user()->role === 'student' && $event->organizer_id !== auth()->id()) {
+        if (Auth::user()->role === 'student' && $event->organizer_id !== Auth::id()) {
             abort(403, 'Unauthorized');
         }
 
@@ -96,7 +97,7 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         // Only organizer or admin can delete
-        if (auth()->user()->role === 'student' && $event->organizer_id !== auth()->id()) {
+        if (Auth::user()->role === 'student' && $event->organizer_id !== Auth::id()) {
             abort(403, 'Unauthorized');
         }
 

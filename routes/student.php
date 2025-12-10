@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Student;
 
@@ -17,7 +18,7 @@ Route::middleware(['auth', 'role:student,organizer,admin'])->prefix('student')->
         $upcomingEvents = \App\Models\Event::where('status', 'active')
             ->where('event_date', '>=', now())
             ->count();
-        $myRegistrations = \App\Models\Registration::where('user_id', auth()->id())->count();
+        $myRegistrations = \App\Models\Registration::where('user_id', Auth::id())->count();
         return view('student.dashboard', compact('upcomingEvents', 'myRegistrations'));
     })->name('dashboard');
     
@@ -31,7 +32,7 @@ Route::middleware(['auth', 'role:student,organizer,admin'])->prefix('student')->
     Route::get('/feedback', function () {
         // Get only COMPLETED events (event_date has passed) that user has registered for
         $attendedEvents = \App\Models\Event::whereHas('registrations', function($query) {
-            $query->where('user_id', auth()->id())
+            $query->where('user_id', Auth::id())
                   ->whereIn('status', ['registered', 'attended']);
         })
         ->where('event_date', '<', now()) // Only completed events
@@ -57,7 +58,7 @@ Route::middleware(['auth', 'role:student,organizer,admin'])->prefix('student')->
         }
         
         // Check if user attended this event
-        $registration = \App\Models\Registration::where('user_id', auth()->id())
+        $registration = \App\Models\Registration::where('user_id', Auth::id())
             ->where('event_id', request('event_id'))
             ->first();
             
@@ -66,7 +67,7 @@ Route::middleware(['auth', 'role:student,organizer,admin'])->prefix('student')->
         }
         
         // Check if feedback already submitted
-        $existingFeedback = \App\Models\Feedback::where('user_id', auth()->id())
+        $existingFeedback = \App\Models\Feedback::where('user_id', Auth::id())
             ->where('event_id', request('event_id'))
             ->first();
             
@@ -77,7 +78,7 @@ Route::middleware(['auth', 'role:student,organizer,admin'])->prefix('student')->
         // Create feedback
         \App\Models\Feedback::create([
             'event_id' => request('event_id'),
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'rating' => request('rating'),
             'comment' => request('comment'),
         ]);
@@ -96,7 +97,7 @@ Route::middleware(['auth', 'role:student,organizer,admin'])->prefix('student')->
         
         // Check if already registered
         $existingRegistration = \App\Models\Registration::where('event_id', $id)
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->first();
             
         if ($existingRegistration) {
@@ -112,7 +113,7 @@ Route::middleware(['auth', 'role:student,organizer,admin'])->prefix('student')->
         // Create registration
         \App\Models\Registration::create([
             'event_id' => $id,
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'status' => 'registered',
         ]);
         

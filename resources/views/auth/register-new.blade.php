@@ -9,128 +9,17 @@
         body {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            background: linear-gradient(135deg, var(--secondary-600) 0%, var(--primary-600) 100%);
-            padding: 0;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        /* Navigation Bar Styles */
-        .top-nav {
-            width: 100%;
-            padding: var(--space-4) var(--space-6);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 100;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            color: white;
-            text-decoration: none;
-            font-weight: var(--font-bold);
-            font-size: var(--text-lg);
-        }
-
-        .nav-logo-icon {
-            font-size: 1.8rem;
-        }
-
-        .nav-menu {
-            position: relative;
-        }
-
-        .dropdown-toggle {
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: var(--space-2) var(--space-4);
-            border-radius: var(--radius-lg);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: var(--text-sm);
-            font-weight: var(--font-medium);
-            transition: all 0.3s;
-        }
-
-        .dropdown-toggle:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: calc(100% + var(--space-2));
-            right: 0;
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-2xl);
-            min-width: 220px;
-            overflow: hidden;
-            animation: dropdownSlide 0.3s ease-out;
-        }
-
-        .dropdown-menu.active {
-            display: block;
-        }
-
-        @keyframes dropdownSlide {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            padding: var(--space-3) var(--space-4);
-            color: var(--gray-700);
-            text-decoration: none;
-            transition: all 0.2s;
-            border-bottom: 1px solid var(--gray-100);
-        }
-
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .dropdown-item:hover {
-            background: var(--primary-50);
-            color: var(--primary-700);
-        }
-
-        .dropdown-item-icon {
-            font-size: 1.2rem;
-        }
-
-        .page-content {
-            flex: 1;
-            display: flex;
             align-items: center;
             justify-content: center;
+            background: linear-gradient(135deg, var(--secondary-600) 0%, var(--primary-600) 100%);
             padding: var(--space-6);
+            position: relative;
+            overflow: hidden;
         }
 
         body::before {
             content: '';
-            position: fixed;
+            position: absolute;
             width: 500px;
             height: 500px;
             background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
@@ -138,12 +27,11 @@
             top: -250px;
             left: -250px;
             animation: float 20s ease-in-out infinite;
-            z-index: 0;
         }
 
         body::after {
             content: '';
-            position: fixed;
+            position: absolute;
             width: 400px;
             height: 400px;
             background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
@@ -151,7 +39,6 @@
             bottom: -200px;
             right: -200px;
             animation: float 15s ease-in-out infinite reverse;
-            z-index: 0;
         }
 
         @keyframes float {
@@ -372,7 +259,6 @@
         .back-home {
             text-align: center;
             margin-top: var(--space-6);
-            display: none; /* Hidden as we have dropdown nav */
         }
 
         .back-home a {
@@ -415,39 +301,6 @@
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="top-nav">
-        <a href="{{ route('home') }}" class="nav-logo">
-            <span class="nav-logo-icon">🎓</span>
-            <span>College Events</span>
-        </a>
-        <div class="nav-menu">
-            <button class="dropdown-toggle" onclick="toggleDropdown()">
-                <span>Menu</span>
-                <span>▼</span>
-            </button>
-            <div class="dropdown-menu" id="dropdownMenu">
-                <a href="{{ route('home') }}" class="dropdown-item">
-                    <span class="dropdown-item-icon">🏠</span>
-                    <span>Home</span>
-                </a>
-                <a href="{{ route('login') }}" class="dropdown-item">
-                    <span class="dropdown-item-icon">🔑</span>
-                    <span>Sign In</span>
-                </a>
-                <a href="{{ route('events.index') }}" class="dropdown-item">
-                    <span class="dropdown-item-icon">📅</span>
-                    <span>Browse Events</span>
-                </a>
-                <a href="{{ route('password.forgot') }}" class="dropdown-item">
-                    <span class="dropdown-item-icon">🔒</span>
-                    <span>Forgot Password</span>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <div class="page-content">
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
@@ -564,7 +417,7 @@
             </div>
 
             <div class="social-buttons">
-                <a href="{{ route('social.redirect.google') }}" class="btn-social">
+                <a href="{{ route('social.redirect', 'google') }}" class="btn-social">
                     <svg width="20" height="20" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -573,7 +426,7 @@
                     </svg>
                     Google
                 </a>
-                <a href="{{ route('social.redirect.facebook') }}" class="btn-social">
+                <a href="{{ route('social.redirect', 'facebook') }}" class="btn-social">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                     </svg>
@@ -595,30 +448,5 @@
             </a>
         </div>
     </div>
-    </div>
-
-    <script>
-        function toggleDropdown() {
-            const dropdown = document.getElementById('dropdownMenu');
-            dropdown.classList.toggle('active');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('dropdownMenu');
-            const toggle = document.querySelector('.dropdown-toggle');
-            
-            if (!dropdown.contains(event.target) && !toggle.contains(event.target)) {
-                dropdown.classList.remove('active');
-            }
-        });
-
-        // Close dropdown with escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                document.getElementById('dropdownMenu').classList.remove('active');
-            }
-        });
-    </script>
 </body>
 </html>

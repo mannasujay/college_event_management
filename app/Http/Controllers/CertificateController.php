@@ -47,6 +47,11 @@ class CertificateController extends Controller
             return redirect()->back()->with('error', 'Certificate not yet generated for this event.');
         }
 
+        // Check if dompdf package is installed
+        if (!class_exists('Barryvdh\\DomPDF\\Facade\\Pdf')) {
+            return redirect()->back()->with('error', 'PDF package not installed. Please run: composer require barryvdh/laravel-dompdf');
+        }
+
         $data = [
             'name' => $registration->user->name,
             'event' => $registration->event->title,

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Organizer;
 
@@ -14,9 +15,9 @@ use App\Http\Controllers\Organizer;
 
 Route::middleware(['auth', 'role:organizer,admin'])->prefix('organizer')->name('organizer.')->group(function () {
     Route::get('/dashboard', function () {
-        $myEvents = \App\Models\Event::where('organizer_id', auth()->id())->count();
+        $myEvents = \App\Models\Event::where('organizer_id', Auth::id())->count();
         $totalParticipants = \App\Models\Registration::whereHas('event', function($q) {
-            $q->where('organizer_id', auth()->id());
+            $q->where('organizer_id', Auth::id());
         })->count();
         return view('organizer.dashboard', compact('myEvents', 'totalParticipants'));
     })->name('dashboard');

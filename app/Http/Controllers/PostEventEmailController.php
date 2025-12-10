@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Mail\PostEventMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class PostEventEmailController extends Controller
@@ -26,7 +27,7 @@ class PostEventEmailController extends Controller
                 $sentCount++;
             } catch (\Exception $e) {
                 // Log error but continue
-                \Log::error('Failed to send post-event email to ' . $registration->user->email . ': ' . $e->getMessage());
+                Log::error('Failed to send post-event email to ' . $registration->user->email . ': ' . $e->getMessage());
             }
         }
 

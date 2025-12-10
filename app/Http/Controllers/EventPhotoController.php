@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\EventPhoto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class EventPhotoController extends Controller
@@ -26,7 +27,7 @@ class EventPhotoController extends Controller
         $event = Event::findOrFail($eventId);
         
         // Check if user is admin or organizer
-        $user = auth()->user();
+        $user = Auth::user();
         if (!in_array($user->role, ['admin', 'organizer'])) {
             return redirect()->back()->with('error', 'Only admins and organizers can upload photos.');
         }
@@ -47,7 +48,7 @@ class EventPhotoController extends Controller
                 
                 EventPhoto::create([
                     'event_id' => $eventId,
-                    'uploaded_by' => auth()->id(),
+                    'uploaded_by' => Auth::id(),
                     'photo_path' => $path,
                     'caption' => $request->captions[$index] ?? null,
                     'order' => EventPhoto::where('event_id', $eventId)->count()
@@ -61,7 +62,7 @@ class EventPhotoController extends Controller
     public function destroy($id)
     {
         $photo = EventPhoto::findOrFail($id);
-        $user = auth()->user();
+        $user = Auth::user();
         
         // Only allow deletion if user is admin, organizer, or the uploader
         if (!in_array($user->role, ['admin', 'organizer']) && $photo->uploaded_by !== $user->id) {

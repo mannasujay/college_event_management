@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin;
 
@@ -64,7 +65,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
             'priority' => 'required|in:low,medium,high',
         ]);
         
-        $validated['created_by'] = auth()->id();
+        $validated['created_by'] = Auth::id();
         
         \App\Models\Announcement::create($validated);
         
